@@ -1,0 +1,59 @@
+In cryptography, a CIPHER is like 
+a lock that you use to encrypt (lock) and decrypt (unlock) data.
+
+const cipher = crypto.createCipheriv(...)
+you are creating a cipher object using Node.js's crypto module.
+This object is what does the actual encryption.
+
+1. What is Buffer?
+📘 Simple Meaning:
+A Buffer in Node.js is a way to handle binary data — data that’s not just plain text.
+
+Normally, strings are human-readable.
+
+But encryption/decryption works with binary, not normal strings.
+
+So we use Buffer to convert between string and binary.
+
+here when we use Buffer.from(key,hex); we are converting key to hex;
+hex = hexadecimal.
+
+2.What is "utf8" in cipher.update()?
+You saw this line:
+
+let encrypted = cipher.update(text, "utf8", "hex");
+This function has 3 arguments:
+
+cipher.update(plaintext, inputEncoding, outputEncoding);
+So in your case:
+
+text: the normal message (e.g., "Hello Vansh")
+
+"utf8": how you are giving the input to the cipher
+
+"hex": how you want the encrypted output
+
+✅ What is "utf8"?
+"utf8" (or UTF-8) is a standard encoding for text — it tells the computer:
+
+"This text is made of readable characters like A, B, C, €, 😂, etc."
+
+Almost all modern text uses "utf8".
+
+:
+
+3.cipher.final("hex")
+This line:
+encrypted += cipher.final("hex");
+is super important in encryption.
+
+🧠 What's happening here?
+When you encrypt using a cipher, the encryption doesn’t happen all at once.
+
+cipher.update(...) encrypts most of the data.
+
+But the last few bytes (or leftover data) stay buffered inside the cipher.
+
+So to finish encryption, you MUST call:
+
+cipher.final(outputEncoding)
