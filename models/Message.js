@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const messageScheme = new mongoose.Schema({
+   uuid: { type: String, required: true }, // <-- needed
    encryptedData: String,
    iv: String,
    keyHint: String,//optional hint for the key

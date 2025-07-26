@@ -4,6 +4,7 @@ const { encrypt } = require("../controllers/encryptor");
 const Message = require("../models/Message");
 const crypto = require("crypto");
 const {v4: uuidv4} = require("uuid");
+const { decrypt } = require("../controllers/decryptor");
 /*
 📦 require("uuid")
 This is importing a Node.js library called uuid.
@@ -26,6 +27,7 @@ router.post("/send", async (req, res) =>{
     //encrypt function takes the text and key, returns encryptedData and iv.
 
     const newMessage = new Message({
+        uuid: uuidv4(),// Generates a unique identifier for the message.
         encryptedData,
         iv,
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), //expires in 24 hours
@@ -36,9 +38,36 @@ router.post("/send", async (req, res) =>{
 
     res.json({
         Message: "Encrypted And Stored Successfully",
-        id: newMessage._id,
+        id: newMessage.uuid,
         key,
     });
+});
+
+// ✅ GET /api/read/:id — decrypt + delete
+router.get("/read/:id", async (req, res) => {
+  const id = req.params.id;
+  const key = req.query.key;
+
+  if (!key) return res.status(400).json({ error: "Decryption key is required in query param" });
+
+  const doc = await Message.findOne({ uuid: id });
+
+  if (!doc) {
+    return res.status(404).json({ message: "Secret not found or already viewed." });
+  }
+
+  try {
+    const decrypted = decrypt(doc, key);//Previously i was simply giving the whole doc object which contents iv, encryptedData, etc.
+    //But it only needs encryptedData and iv for decryption.
+
+    // 🔥 Self-destruct (one-time read)
+    await Message.deleteOne({ uuid: id });
+
+    return res.json({ message: decrypted });
+  } catch (error) {
+    console.error("Decryption failed:", error);
+    return res.status(400).json({ error: "Failed to decrypt. Invalid key or data." });
+  }
 });
 
 module.exports = router;
