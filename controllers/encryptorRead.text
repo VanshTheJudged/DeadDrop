@@ -57,3 +57,5 @@ But the last few bytes (or leftover data) stay buffered inside the cipher.
 So to finish encryption, you MUST call:
 
 cipher.final(outputEncoding)
+
+FreeCommit
