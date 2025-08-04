@@ -83,78 +83,9 @@
     </div>
   </div>
 
-  <script>
-    // MATRIX RAIN
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
+  <script src="matrix.js"></script>
 
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-
-    let chars = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチッヂヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    chars = chars.split("");
-
-    let fontSize = 14;
-    let columns = canvas.width / fontSize;
-    let drops = [];
-
-    for (let i = 0; i < columns; i++) {
-      drops[i] = 1;
-    }
-
-    function draw() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#0F0";
-      ctx.font = fontSize + "px monospace";
-
-      for (let i = 0; i < drops.length; i++) {
-        let text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height || Math.random() > 0.975)
-          drops[i] = 0;
-
-        drops[i]++;
-      }
-    }
-
-    setInterval(draw, 33);
-  </script>
-
-  <script>
-    // TYPING EFFECT
-    const words = ["Anonymous", "Ephemeral", "Not Stored Anywhere", "Deleted After Reading"];
-    const typewriter = document.getElementById("typewriter");
-
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    function typeEffect() {
-      let currentWord = words[wordIndex];
-      let display = currentWord.substring(0, charIndex);
-
-      typewriter.textContent = display;
-
-      if (!isDeleting && charIndex < currentWord.length) {
-        charIndex++;
-        setTimeout(typeEffect, 100);
-      } else if (isDeleting && charIndex > 0) {
-        charIndex--;
-        setTimeout(typeEffect, 50);
-      } else {
-        isDeleting = !isDeleting;
-        if (!isDeleting) {
-          wordIndex = (wordIndex + 1) % words.length;
-        }
-        setTimeout(typeEffect, 1000);
-      }
-    }
-
-    typeEffect();
-  </script>
+  <script src="typing.js"></script>
 
 </body>
 </html>
