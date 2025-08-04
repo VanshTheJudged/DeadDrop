@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DeadDrop – Anonymous Messaging</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: black;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .content {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .typing {
+      font-size: 2rem;
+      height: 50px;
+      margin-bottom: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #00ff00;
+    }
+
+    .description {
+      max-width: 600px;
+      margin-bottom: 30px;
+      font-size: 1rem;
+      color: #00ff00cc;
+    }
+
+    .btn {
+      text-decoration: none;
+      color: #00ff00;
+      background: #111;
+      border: 1px solid #00ff00;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #00ff00;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="matrix"></canvas>
+  <div class="content">
+    <h1>Welcome to DeadDrop</h1>
+    <div class="typing" id="typewriter"></div>
+    <p class="description">
+      DeadDrop is a minimal anonymous messaging service. Messages are encrypted, never stored permanently, and vanish after being seen.
+    </p>
+    <div>
+      <a href="send.html" class="btn">Send a Message</a>
+      <a href="receive.html" class="btn">View a Message</a>
+    </div>
+  </div>
+
+  <script>
+    // MATRIX RAIN
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    let chars = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチッヂヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    chars = chars.split("");
+
+    let fontSize = 14;
+    let columns = canvas.width / fontSize;
+    let drops = [];
+
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        let text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height || Math.random() > 0.975)
+          drops[i] = 0;
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+  </script>
+
+  <script>
+    // TYPING EFFECT
+    const words = ["Anonymous", "Ephemeral", "Not Stored Anywhere", "Deleted After Reading"];
+    const typewriter = document.getElementById("typewriter");
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+      let currentWord = words[wordIndex];
+      let display = currentWord.substring(0, charIndex);
+
+      typewriter.textContent = display;
+
+      if (!isDeleting && charIndex < currentWord.length) {
+        charIndex++;
+        setTimeout(typeEffect, 100);
+      } else if (isDeleting && charIndex > 0) {
+        charIndex--;
+        setTimeout(typeEffect, 50);
+      } else {
+        isDeleting = !isDeleting;
+        if (!isDeleting) {
+          wordIndex = (wordIndex + 1) % words.length;
+        }
+        setTimeout(typeEffect, 1000);
+      }
+    }
+
+    typeEffect();
+  </script>
+
+</body>
+</html>

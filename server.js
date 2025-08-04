@@ -1,27 +1,31 @@
-//Server.js
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const messageRoute = require("./routes/messageRoute"); // ✅ this line
+const cors = require("cors");
+
 
 const app = express();
-app.use(express.json());
 dotenv.config();
+app.use(cors());
+app.use(express.json());
+
+// ✅ Mount all message-related routes under /api
+const messageRoutes = require("./routes/message");
+app.use("/message", messageRoutes);
 
 
-// ✅ Mount route
-app.use("/api", messageRoute); // ← mounts all /send, /read under /api
-
-//connect to MongoDB
+// ✅ Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL)
-.then(() => {
+  .then(() => {
     console.log("Connected to MongoDB");
-}).catch(err => {console.error("MongoDB connection error:", err)});
+  })
+  .catch(err => {
+    console.error("MongoDB connection error:", err);
+  });
 
-//Routes
-app.get('/api', require("./routes/messageRoute"));
-
+// ✅ Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
