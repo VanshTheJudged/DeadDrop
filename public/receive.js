@@ -8,7 +8,7 @@ async function fetchMessage() {
   }
 
   try {
-    const res = await fetch(`http://localhost:5000/message/${passphrase}`);
+    const res = await fetch(`/message/${passphrase}`);
     const data = await res.json();
 
     if (res.ok && data.messages && data.messages.length > 0) {

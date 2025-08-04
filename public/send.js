@@ -2,7 +2,7 @@ function sendMessage() {
   const passphrase = document.getElementById("passphrase").value;
   const content = document.getElementById("content").value;
 
-fetch("http://localhost:5000/message", {
+fetch("/message", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
