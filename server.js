@@ -16,11 +16,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ Define routes to serve specific HTML files (if needed)
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get('/send', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'send.html'));
 });
 
 app.get('/receive', (req, res) => {
