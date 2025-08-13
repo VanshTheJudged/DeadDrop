@@ -3,15 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>DeadDrop – Send Message</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Share+Tech+Mono&display=swap');
-
   body {
     margin: 0;
     padding: 0;
     background-color: #000000;
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Courier New', Courier, monospace;
     color: #00ff41;
     display: flex;
     flex-direction: column;
@@ -20,13 +17,13 @@
     min-height: 100vh;
     background-size: cover;
     background-position: center;
-    backdrop-filter: brightness(0.3);
+    backdrop-filter: brightness(0.1);
   }
 
   h1 {
     color: #00ff41;
     margin-bottom: 20px;
-    text-shadow: 0 0 10px #00ff41;
+    /* text-shadow: 0 0 10px #ffffff; */
     font-size: 2rem;
   }
 
@@ -46,7 +43,8 @@
 
   input:focus, textarea:focus {
     outline: none;
-    border-color: #00ffcc;
+    border-color: #ffffff;
+    
   }
 
   textarea {
@@ -64,7 +62,7 @@
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 0 10px #00ff41;
+    /* box-shadow: 0 0 10px #00ff41; */
     transition: all 0.2s ease-in-out;
   }
 
@@ -76,14 +74,14 @@
   #status {
     margin-top: 20px;
     white-space: pre-wrap;
-    color: #00ffaa;
+    color: #00ff41;
     font-size: 14px;
   }
 
   .home-button {
-    position: fixed;
+    /* position: fixed;
     top: 20px;
-    left: 20px;
+    left: 20px; */
     padding: 8px 14px;
     font-size: 14px;
     background-color: transparent;
@@ -92,8 +90,23 @@
     border-radius: 4px;
     cursor: pointer;
     text-decoration: none;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Courier New', Courier, monospace;
     transition: background-color 0.2s;
+  }
+
+  .content-box {
+    /* position: fixed;
+    top: 20px;
+    left: 20px; */
+    padding: 8px 14px;
+    font-size: 14px;
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #00ff41;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Courier New', Courier, monospace;
   }
 
   .home-button:hover {
@@ -104,13 +117,13 @@
 </head>
 <body>
   <div class="buttons">
-      <a href="landing.html" class="btn">Home</a>
-      <a href="receive.html" class="btn">receive a Message</a>
+      <a href="landing.html" class="home-button">Home</a>
+      <a href="receive.html" class="home-button">Receive a Message</a>
     </div>
   <h1>Send a Message</h1>
-  <input id="passphrase" placeholder="Passphrase" />
-  <textarea id="content" placeholder="Your message"></textarea>
-  <button onclick="sendMessage()">Send</button>
+  <input id="passphrase" placeholder="Passphrase" class="content-box"/>
+  <textarea id="content" placeholder="Your message" class="content-box"></textarea>
+  <button onclick="sendMessage()" class="home-button">Send</button>
 
   <p id="status"></p>
 

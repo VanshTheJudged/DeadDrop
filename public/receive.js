@@ -3,7 +3,7 @@ async function fetchMessage() {
   const output = document.getElementById("output");
 
   if (!passphrase) {
-    output.innerText = "Please enter your secret key.";
+    output.innerText = "Please enter your passpharse.";
     return;
   }
 
